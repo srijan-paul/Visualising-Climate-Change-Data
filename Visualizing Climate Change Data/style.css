@@ -1,0 +1,143 @@
+header {
+	text-align: center;
+	padding-top: 20px;
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('img/headerBG.jpg');
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 200px;
+	color: white;
+	margin: 0px;
+	padding-bottom: 10 px;
+}
+
+#title {
+	font-size: 40px;
+	font-weight: 100;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+section {
+	margin: 30px;
+}
+
+#canvas {
+	margin-top: 20px;
+	width: 70%;
+	margin-right: 10px;
+}
+
+#canvas canvas {
+	width: 100%;
+}
+
+#graph-selector {
+	margin-top: 20px;
+	margin-right: 0px;
+	width: 25%;
+	background-color: #f9f9f9
+}
+
+
+#graph-title {
+	margin-top: 20px;
+}
+
+.graph-type-select{
+	margin-left: 80px;
+	margin-right: 80px;
+	background-color:#f9f9f9;
+}
+
+.side {
+	display: inline-block;
+	vertical-align: top;
+}
+
+section{
+	margin: 50px;
+}
+
+.graph-button {
+	background-color:#f9f9f9;
+	border: none;
+	padding: 10px;
+	font-size: 17px;
+	text-align: center;
+	text-decoration: none;
+	transition-duration: 0.4s;
+	color: black;
+	outline: 0;
+}
+
+.graph-button-clicked {
+	text-decoration-line: underline;
+	background-color: #1e272e;
+	color: white;
+
+}
+
+.btn-fixed {
+	background-color: #2c3e50;
+	border: 1px solid #2c3e50;
+	border-radius: 3%;
+	padding: 10px;
+	font-size: 14px;
+	text-align: center;
+	text-decoration: none;
+	transition-duration: 0.4s;
+	color: white;
+	outline: 0;
+}
+
+.btn-fixed:hover {
+	background-color: #485460;
+	color: white;
+}
+
+.btn-fixed:focus {
+	background-color: #1e272e;
+	color: white;
+}
+
+.btn-fixed {
+	width: 100%;
+}
+
+.title-1 {
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('img/lowerBG.jpg');
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.center-chart {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.text{
+	padding: 20px 120px 20px 120px
+}
+
+.btn-general{
+	outline: none;
+	border : 1px solid black;
+	background-color: white;
+	font-size: 15px;
+}
+
+.btn-general:hover{
+	background-color:#7E82E9;
+	color:white;
+	border-color: #7E82E9;
+}
+
+.country-select{
+	outline: none;
+	font-size: 15px;
+}
