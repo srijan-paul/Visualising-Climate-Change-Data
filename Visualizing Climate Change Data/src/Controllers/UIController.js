@@ -2,8 +2,18 @@ const UIController = (mainController) => {
 
     let clickedCountries = [];
 
-
+    let mode = 'line';
+    
     let currentDataSet;
+    let mostPopulatedChartMode = 'doughnut';
+    let populationGrowthYearLabels = [];
+    let populationGrowthDataSets = [];
+
+    let chart;
+    let mostPopulatedChart;
+    let populationCompareChart;
+    let populationGrowthLabelGap = 4;
+
 
     const DOM = Object.freeze({
 
@@ -35,6 +45,7 @@ const UIController = (mainController) => {
 
         populationCompareChart: select('#population-chart-2'),
         addCountryBtn: select('#add-country-1'),
+        removeCountryBtn : select('#remove-country-1'),
         countrySelector: select('#country-select'),
         lineBtnComparison: select('#line-2'),
         barBtnCompare: select('#bar-3')
@@ -58,7 +69,7 @@ const UIController = (mainController) => {
 
 
 
-        for (let i = 1; i < countryPopulationData.getColumnCount() - 1; i++) {
+        for (let i = 1; i < countryPopulationData.getColumnCount() - 1; i+= populationGrowthLabelGap) {
             populationGrowthYearLabels.push(countryPopulationData.getString(0, i));
         }
 
@@ -69,28 +80,7 @@ const UIController = (mainController) => {
 
     const setUpMenuButtons = () => {
 
-        DOM.addCountryBtn.mousePressed(() => {
-
-            if (clickedCountries.includes(DOM.countrySelector.elt.value)) return;
-
-            clickedCountries.push(DOM.countrySelector.elt.value);
-            let r = random(255);
-            let b = random(255);
-            let g = random(255);
-            let newDataset = {
-                label: DOM.countrySelector.elt.value,
-                pointRadius: 1,
-                pointHoverRadius: 1,
-                backgroundColor: `rgba(${r}, ${g}, ${b}, 1)`,
-                borderColor: `rgba(${r}, ${g}, ${b}, 0.5)`,
-                borderWidth: 2.5,
-                data: getCountryPopulationData(DOM.countrySelector.elt.value),
-                fill: false
-            }
-
-            populationGrowthDataSets.push(newDataset);
-            populationCompareChart.update();
-        });
+     
 
         for (let button of DOM.topPopulationGraphBtns) {
             button.mousePressed(() => {
@@ -173,6 +163,39 @@ const UIController = (mainController) => {
 
         DOM.fillCheckBox.changed(() => {
             createChart(currentDataSet);
+        });
+
+        DOM.addCountryBtn.mousePressed(() => {
+
+            if (clickedCountries.includes(DOM.countrySelector.elt.value)) return;
+
+            clickedCountries.push(DOM.countrySelector.elt.value);
+            let r = random(255);
+            let b = random(255);
+            let g = random(255);
+            let newDataset = {
+                label: DOM.countrySelector.elt.value,
+                pointRadius: 1,
+                pointHoverRadius: 1,
+                backgroundColor: `rgba(${r}, ${g}, ${b}, 0.5)`,
+                hoverBackgroundColor : `rgba(${r}, ${g}, ${b}, 0.8)` ,
+                borderColor: `rgba(${r}, ${g}, ${b}, 0.5)`,
+                hoverBorderColor : `rgba(${r}, ${g}, ${b}, 0.5)`,
+                borderWidth: 2.5,
+                data: getCountryPopulationData(DOM.countrySelector.elt.value),
+                fill: false
+            }
+
+            populationGrowthDataSets.push(newDataset);
+            populationCompareChart.update();
+        });
+
+        DOM.removeCountryBtn.mousePressed(() =>{
+            let len = populationGrowthDataSets.length - 1;
+            let index = clickedCountries.indexOf(populationGrowthDataSets[len].label);
+            clickedCountries.splice(index,1);
+            populationGrowthDataSets.pop();
+            populationCompareChart.update();
         });
     }
 
@@ -293,7 +316,7 @@ const UIController = (mainController) => {
         let countryPopulationData = mainController.fetchData(TYPE.COUNTRY_POPULATION);
         for (let i = 1; i < countryPopulationData.getRowCount(); i++) {
             if (countryName == countryPopulationData.getString(i, 0)) {
-                for (let j = 1; j < countryPopulationData.getColumnCount(); j++) {
+                for (let j = 1; j < countryPopulationData.getColumnCount(); j+=populationGrowthLabelGap) {
                     data.push(countryPopulationData.getString(i, j));
                 }
             }
@@ -301,6 +324,133 @@ const UIController = (mainController) => {
 
         return data;
     }
+
+    function generateChart(crt, type, label, xLabels, yLabels, fill, fillColor, lineColor, pointColor, unit) {
+        let ctx = document.getElementById(crt).getContext('2d');
+    
+        let myChart = new Chart(ctx, {
+            type: type,
+            data: {
+                labels: yLabels,
+                datasets: [{
+                    label: label,
+                    lineTension: 0.1,
+                    fill: fill,
+                    borderWidth: 5,
+                    data: xLabels,
+                    backgroundColor: fillColor,
+                    pointBorderColor: pointColor,
+                    pointStyle: 'point',
+                    borderColor: lineColor,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false,
+                            callback: function (value, index, values) {
+                                return value + unit;
+                            }
+                        }
+                    }]
+                }
+            }
+        });
+    
+        return myChart;
+    }
+    
+    
+    
+    function generateMostPopulatedChart(type, xLabels, yData) {
+        let ctx = document.getElementById('population-chart-1').getContext('2d');
+        let displayXGridLines = false;
+        let displayYGridLines = false;
+        let displayLabels = false;
+        if (type == 'bar') {
+            displayYGridLines = true;
+            displayLabels = true;
+        } else if (type == 'horizontalBar') {
+            displayXGridLines = true;
+            displayLabels = true;
+        }
+        if (mostPopulatedChart) {
+            mostPopulatedChart.destroy();
+        }
+    
+        mostPopulatedChart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: type,
+    
+            // The data for our dataset
+            data: {
+                labels: xLabels,
+                datasets: [{
+                    label: '% Contribution to worlds total population',
+                    backgroundColor: ['rgb(255, 0, 100)',
+                        'rgb(255, 100, 100)',
+                        'rgb(255, 200, 0)',
+                        'rgb(255, 200, 100)',
+                        'rgb(149, 244, 75)',
+                        'rgb(111, 236, 107)',
+                        'rgb(107, 236, 137)',
+                        'rgb(107, 236, 184)',
+                        'rgb(107, 236, 227)',
+                        'rgb(107, 210, 236)'
+                    ],
+                    borderColor: 'rgb(0, 0, 0, 0.3)',
+                    data: yData
+                }]
+            },
+    
+            options: {
+                responsive: false,
+                scales: {
+                    xAxes: [{
+                        barThickness: 50,
+                        display: displayLabels,
+                        drawBorder: false,
+                        gridLines: {
+                            display: displayXGridLines
+                        },
+                        ticks: {
+                            display: displayLabels,
+                            callback: function (value, index, values) {
+                                if (type == 'horizontalBar') {
+                                    return value + '%';
+                                }
+    
+                                return value;
+                            }
+                        }
+                    }],
+                    yAxes: [{
+                        barThickness: 30,
+                        display: displayLabels,
+                        drawBorder: false,
+                        gridLines: {
+                            display: displayYGridLines,
+                        },
+                        ticks: {
+                            beginAtZero: false,
+                            display: displayLabels,
+                            callback: function (value, index, values) {
+                                if (type == 'horizontalBar') {
+                                    return value;
+                                }
+                                return value + ' %';
+                            }
+                        }
+                    }],
+                },
+            }
+        });
+    }
+
+        
 
     return {
         init

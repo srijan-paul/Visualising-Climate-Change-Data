@@ -3,14 +3,13 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Climate is Changing</title>
+  <title>Climate Change Data Visualization</title>
  
   <script src="libraries/p5.js" type="text/javascript"></script>
   <script src="libraries/p5.dom.js" type="text/javascript"></script>
   <script src="libraries/Chart.min.js" type="text/javascript"></script>
  
   <script defer src="src/Controllers/DataController.js" type="text/javascript"> </script>
-  <script defer src="src/Controllers/ChartController.js" type="text/javascript"> </script>
   <script defer src="src/Controllers/MainController.js" type="text/javascript"> </script>
   <script defer src="src/Controllers/UIController.js" type="text/javascript"> </script>
   <script defer src="src/index.js" type="text/javascript"></script>
@@ -88,7 +87,9 @@
         label above the graph to hide it's curve.
 
         <p>Add Country : <select id="country-select"> </select> <button class="btn-general"
-            id="add-country-1">Add</button></p>
+            id="add-country-1">Add Country</button>
+             <button class="btn-general"
+            id="remove-country-1">Remove Last Country</button></p>
             <br>
         <div class="graph-type-select">
           <button class="graph-button" id="line-2">Line</button>

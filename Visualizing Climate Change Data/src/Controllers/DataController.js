@@ -50,6 +50,8 @@ const DataController = (mainController) => {
                 return Data.Population.global;
             case TYPE.MOST_POPULATED:
                 return Data.Population.mostPopulated;
+            default:
+                return null;
         }
     }
 
