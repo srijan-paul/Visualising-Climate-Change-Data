@@ -222,8 +222,8 @@ const UIController = (mainController) => {
                     yLabels,
                     xLabels,
                     DOM.fillCheckBox.checked(),
-                    'rgba(0, 200, 255, 0.6)',
-                    'rgba(27, 200, 100,1.0)',
+                    'rgba(0, 200, 255, 0.3)',
+                    'rgba(27, 200, 100, 1)',
                     'rgba(0, 0, 0, 0)',
                     ''
                 );
