@@ -12,8 +12,8 @@ Overall it's nothing fancy, just a small project that helped me learn the use of
 
 ## Screenshots.
 Just to show you what it looks like :
-**Comparing population growth rates of Argentina and Austria : **
+**Comparing population growth rates of Argentina and Austria** :
 ![Comparing population growth rates of Argentina and Austria](https://i.imgur.com/zJGWDfe.png)
 
-**Contribution of the top 10 most populated countries to the world's population : **
+**Contribution of the top 10 most populated countries to the world's population** : 
 ![Contribution of the top 10 most populated countries to the world's population](https://i.imgur.com/m3dEBPz.png)
