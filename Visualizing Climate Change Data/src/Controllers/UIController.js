@@ -83,7 +83,7 @@ const UIController = (mainController) => {
      
 
         for (let button of DOM.topPopulationGraphBtns) {
-            button.mousePressed(() => {
+            button.mouseClicked(() => {
 
                 let id = button.elt.id;
                 switch (id) {
@@ -114,21 +114,21 @@ const UIController = (mainController) => {
             });
         }
 
-        DOM.barBtn.mousePressed(() => {
+        DOM.barBtn.mouseClicked(() => {
             mode = 'bar';
             DOM.barBtn.style('text-decoration-line: underline;');
             DOM.lineBtn.style('text-decoration-line: none');
             createChart(currentDataSet);
         });
 
-        DOM.lineBtn.mousePressed(() => {
+        DOM.lineBtn.mouseClicked(() => {
             mode = 'line';
             DOM.lineBtn.style('text-decoration-line: underline;');
             DOM.barBtn.style('text-decoration-line: none');
             createChart(currentDataSet);
         });
 
-        DOM.lineBtnComparison.mousePressed(() => {
+        DOM.lineBtnComparison.mouseClicked(() => {
             if (populationCompareChart) {
                 populationCompareChart.destroy();
             }
@@ -137,7 +137,7 @@ const UIController = (mainController) => {
             generatePopulationComparisonChart('line');
         });
 
-        DOM.barBtnCompare.mousePressed(() => {
+        DOM.barBtnCompare.mouseClicked(() => {
             if (populationCompareChart) {
                 populationCompareChart.destroy();
             }
@@ -146,17 +146,17 @@ const UIController = (mainController) => {
             generatePopulationComparisonChart('bar');
         });
 
-        DOM.temperatureBtn.mousePressed(() => {
+        DOM.temperatureBtn.mouseClicked(() => {
             currentDataSet = TYPE.TEMPERATURE;
             createChart(currentDataSet);
         });
 
-        DOM.carbonBtn.mousePressed(() => {
+        DOM.carbonBtn.mouseClicked(() => {
             currentDataSet = TYPE.CARBON_EMISSION;
             createChart(currentDataSet);
         });
 
-        DOM.populationBtn.mousePressed(() => {
+        DOM.populationBtn.mouseClicked(() => {
             currentDataSet = TYPE.GLOBAL_POPULATION;
             createChart(currentDataSet);
         });
@@ -165,7 +165,7 @@ const UIController = (mainController) => {
             createChart(currentDataSet);
         });
 
-        DOM.addCountryBtn.mousePressed(() => {
+        DOM.addCountryBtn.mouseClicked(() => {
 
             if (clickedCountries.includes(DOM.countrySelector.elt.value)) return;
 
@@ -190,13 +190,17 @@ const UIController = (mainController) => {
             populationCompareChart.update();
         });
 
-        DOM.removeCountryBtn.mousePressed(() =>{
+        DOM.removeCountryBtn.mouseClicked(() =>{
             let len = populationGrowthDataSets.length - 1;
             let index = clickedCountries.indexOf(populationGrowthDataSets[len].label);
             clickedCountries.splice(index,1);
             populationGrowthDataSets.pop();
             populationCompareChart.update();
         });
+
+        DOM.lineBtn.elt.click();
+        DOM.topPopulationGraphBtns[3].elt.click();
+        DOM.lineBtnComparison.elt.click();
     }
 
     function createChart(type) {
